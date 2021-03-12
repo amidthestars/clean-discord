@@ -1,4 +1,5 @@
 import io
+import itertools
 import re
 import random
 import argparse
@@ -48,13 +49,14 @@ def gen_name(username):
     except: return "@"+random.choice(names)
     
 #precompile regex
-r1=re.compile(r'https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)|<:.+?:\d+>|[\w\-\.]+@(?:[\w-]+\.)+[\w-]{2,4}|(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}|```(?:.?)+```|:[^:\s]*(?:::[^:\s]*)*:|(?:\\n)+|(?<=[:.,!?()]) (?=[:.,!?()])|[^a-z0-9.,!\':\"@?\s\/\U0001F600-\U0001F64F\U0001F300-\U0001F5FF]+', flags=re.DOTALL | re.IGNORECASE) #if it's not in here it gets Chopped
+r1=re.compile(r'https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)|<:.+?:\d+>|[\w\-\.]+@(?:[\w-]+\.)+[\w-]{2,4}|(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}|```(?:.?)+```|:[^:\s]*(?:::[^:\s]*)*:|(?:\\n)+|(?<=[:.,!?()]) (?=[:.,!?()])|(?!:3)[^a-z0-9.,!@?\s\/\U0001F600-\U0001F64F\U0001F300-\U0001F5FF]+', flags=re.DOTALL | re.IGNORECASE)
 r2=re.compile(r'[\U00003000\U0000205F\U0000202F\U0000200A\U00002000-\U00002009\U00001680\U000000A0\t]+')
 r5=re.compile(r"([\.\'\"@?!a-z])\1{4,}", re.IGNORECASE)
 r6=re.compile(r"\s(.+?)\1+\s", re.IGNORECASE)
-r7=re.compile(r'@Deleted User') 
+r7=re.compile(r'@Deleted User')
 r8=re.compile(r"([\s!?@\"\'])\1+")
 r9=re.compile(r'\s([?.!\"](?:\s|$))')
+r10=re.compile(r"^(?!my|\bdm\b|server|location|located)[a-z]+\s??(?!my|\bdm\b|server|location|located)[a-z]+\s??:[a-z0-9/.,\'\" ]{1,40}$", flags=re.M | re.IGNORECASE)
 
 def clean(text, author=None):
     for prefix in bot_prefixes:
@@ -78,13 +80,11 @@ def clean(text, author=None):
     
     if text != "\\n" and text != " " and text != "" and author==None:
         return text
-        
-    elif text != "\\n" and text != " " and text != "":
+    elif text != "\\n" and text != " " and text != "" and author!=None:
         return text.split(" ")[-1]
-        
     else:
         return None
-
+    
 def gen_permuatations(name, info, shuffle=False):
     carrier=["who is", "who's", "that's", "that is"]
     outputs=[]
