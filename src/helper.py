@@ -85,6 +85,7 @@ def clean(text, author=None):
     else:
         return None
     
+    
 def gen_permuatations(name, info, shuffle=False):
     carrier=["who is", "who's", "that's", "that is"]
     outputs=[]
@@ -99,20 +100,19 @@ def gen_permuatations(name, info, shuffle=False):
     #[name][:/no :] ([x], [y], [z]...) (in vague/random order)
     #[name] [carrier] [x] [delimiter] [y] [delimiter] [z]... (in vague/random order)
     for comb in all_combs:
-        get_perms=[[f"{combd}: {info[combd]}" for combd in perms] for perms in itertools.permutations(comb)]
-        for get_json in get_perms:
-            outputs.extend([name+": {"+", ".join(get_json)+"}",
-                            f"{name}, {', '.join(get_json)}",
-                            f"{name}: {', '.join(get_json)}",
-                            f"{name}: [{', '.join(get_json)}]",
-                            f"{name}: ({', '.join(get_json)})",
-                            f"{name} ({', '.join(get_json)})",
-                            f"{name}: ({', '.join([i.split(': ')[1].strip() for i in get_json])})",
-                            f"{name} ({', '.join([i.split(': ')[1].strip() for i in get_json])})"
-                            ]+
-                           [f"{name} {carry} {' and '.join([i.split(': ')[1].strip() for i in get_json])}" for carry in carrier]+
-                           [f"{name} {carry} {', '.join([i.split(': ')[1].strip() for i in get_json])}" for carry in carrier]
-                            )
+        get_json=[f"{combd}: {info[combd]}" for combd in comb]
+        outputs.extend([name+": {"+", ".join(get_json)+"}",
+                        f"{name}, {', '.join(get_json)}",
+                        f"{name}: {', '.join(get_json)}",
+                        f"{name}: [{', '.join(get_json)}]",
+                        f"{name}: ({', '.join(get_json)})",
+                        f"{name} ({', '.join(get_json)})",
+                        f"{name}: ({', '.join([i.split(': ')[1].strip() for i in get_json])})",
+                        f"{name} ({', '.join([i.split(': ')[1].strip() for i in get_json])})"
+                        ]+
+                        [f"{name} {carry} {' and '.join([i.split(': ')[1].strip() for i in get_json])}" for carry in carrier]+
+                        [f"{name} {carry} {', '.join([i.split(': ')[1].strip() for i in get_json])}" for carry in carrier]
+                        )
     return outputs
     
 def extract_fields(message, shuffle=False):

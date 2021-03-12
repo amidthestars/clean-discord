@@ -28,13 +28,11 @@ for onefile in tqdm(dirs, desc= "Cleaning"): #cycle through the files
                 #print(cleanedString)
                 messageArray.append(cleanedString) #put them all into a chonky array
 
-
+temp=[]
 for i in tqdm(range(len(messageArray)), desc="Extracting fields"):
     newString = messageArray[i].replace('\\n','\n')
     for val in (extract_fields(newString)):
-        outputf.write(val)
-    '''
-messageArray.extend(newLine) #a Heckin' Chonker of an array
+        temp.extend(newLine) #a Heckin' Chonker of an array
 
 random.shuffle(messageArray) #randomization time
 print("Shuffling done.")
@@ -42,4 +40,3 @@ print("Shuffling done.")
 for i in tqdm(range(len(messageArray)), desc="Writing"):
     outputf.write(messageArray[i]) #file writing time
 outputf.close()
-'''
