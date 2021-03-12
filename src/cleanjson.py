@@ -23,20 +23,19 @@ for onefile in tqdm(dirs, desc= "Cleaning"): #cycle through the files
             #print(cleanedName)
             cleanedContent = clean(content)
             if (cleanedName != None) and (cleanedContent != None) and (len(cleanedContent.split()) > 10):
-                cleanedString = cleanedName + "\t" + cleanedContent + "\n" #but then you have to put it back together anyways
+                cleanedString = cleanedName + "\t" + cleanedContent #but then you have to put it back together anyways
                 #outputf.write(cleanedString)
                 #print(cleanedString)
                 messageArray.append(cleanedString) #put them all into a chonky array
 
-temp=[]
-for i in tqdm(range(len(messageArray)), desc="Extracting fields"):
-    newString = messageArray[i].replace('\\n','\n')
-    for val in (extract_fields(newString)):
-        temp.extend(newLine) #a Heckin' Chonker of an array
-
-random.shuffle(messageArray) #randomization time
-print("Shuffling done.")
 
 for i in tqdm(range(len(messageArray)), desc="Writing"):
     outputf.write(messageArray[i]) #file writing time
+
+for i in tqdm(range(len(messageArray)), desc="Extracting fields"):
+    newString = messageArray[i].replace('\\n','\n')
+    outputf.write("\n"+"\n".join(extract_fields(newString))) #a Heckin' Chonker of an array
+
+#random.shuffle(messageArray) #randomization time
+#print("Shuffling done.")
 outputf.close()
