@@ -29,8 +29,7 @@ for onefile in tqdm(dirs, desc= "Cleaning"): #cycle through the files
                 messageArray.append(cleanedString) #put them all into a chonky array
 
 
-for i in tqdm(range(len(messageArray)), desc="Writing"):
-    outputf.write(messageArray[i]) #file writing time
+outputf.write("\n".join(messageArray)) #file writing time
 
 for i in tqdm(range(len(messageArray)), desc="Extracting fields"):
     newString = messageArray[i].replace('\\n','\n')

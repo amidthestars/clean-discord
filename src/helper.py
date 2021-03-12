@@ -127,5 +127,5 @@ def extract_fields(message, shuffle=False):
     output=[]
     output.extend(gen_permuatations(input_str, extracted))
     if "name" in extracted: output.extend(gen_permuatations(extracted["name"], extracted))
-    output=[f"{inp}\t{message}".replace("\n","\\n") for inp in output]    
+    output=[f"{inp}\t{output_str}".replace("\n","\\n") for inp in output]    
     return output
