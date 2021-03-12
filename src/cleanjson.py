@@ -9,6 +9,7 @@ outputname = sys.argv[2] # then it's the output file name (add the prefix, like 
 dirs = os.listdir(folderpath) #this is only the names of the files though. will be accounted for later
 outputf = io.open(outputname, mode = 'w',  encoding="utf-8") #the output file
 messageArray = []
+newLine = []
 for onefile in tqdm(dirs, desc= "Cleaning"): #cycle through the files
     whole_file = json.load(io.open(folderpath + "/" + onefile, mode="r", encoding="utf-8")) #load that json file (directory kinda hardcoded accounted for)
 
@@ -24,11 +25,16 @@ for onefile in tqdm(dirs, desc= "Cleaning"): #cycle through the files
             if (cleanedName != None) and (cleanedContent != None) and (len(cleanedContent.split()) > 10):
                 cleanedString = cleanedName + "\t" + cleanedContent + "\n" #but then you have to put it back together anyways
                 #outputf.write(cleanedString)
+                #print(cleanedString)
                 messageArray.append(cleanedString) #put them all into a chonky array
 
+
 for i in tqdm(range(len(messageArray)), desc="Extracting fields"):
-    newLine = extract_fields(messageArray[i])
-    messageArray.extend(newLine)
+    newString = messageArray[i].replace('\\n','\n')
+    #print(newString)
+    newLine.extend(extract_fields(newString))
+    #print(newLine)
+messageArray.extend(newLine) #a Heckin' Chonker of an array
 
 random.shuffle(messageArray) #randomization time
 print("Shuffling done.")
