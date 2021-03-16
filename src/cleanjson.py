@@ -1,12 +1,14 @@
 import io, json, sys, os, random
 from helper import clean
 from helper import extract_fields
+from validate import check_files
 from tqdm import tqdm
 
 folderpath = sys.argv[1] # folder path argument comes first
 outputname = sys.argv[2] # then it's the output file name (add the prefix, like .txt)
 
 dirs = os.listdir(folderpath) #this is only the names of the files though. will be accounted for later
+print(check_files(folderpath))
 outputf = io.open(outputname, mode = 'w',  encoding="utf-8") #the output file
 messageArray = []
 newLine = []
